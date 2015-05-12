@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.2" type="plugin" group="system" method="upgrade">
+	<name>plg_content_aec_showplan</name>
+	<author>Thiemo Borger</author>
+	<creationDate>May 2015</creationDate>
+	<copyright>Copyright (C) 2015 Thiemo Borger</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>tb@bbz-int.de</authorEmail>
+	<authorUrl>www.github.com/LORDofDOOM/aec_showplan</authorUrl>
+	<version>1.0</version>
+	<description>Show payment plans if user has no access rights for content</description>
+	<files>
+		<filename plugin="aec_showplan">aec_showplan.php</filename>
+	</files>
+	<config>
+		<fields name="params">
+		</fields>
+	</config>
+</extension>
