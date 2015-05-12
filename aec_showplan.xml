@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>tb@bbz-int.de</authorEmail>
 	<authorUrl>www.github.com/LORDofDOOM/aec_showplan</authorUrl>
-	<version>1.0</version>
+	<version>1.1</version>
 	<description>Show payment plans if user has no access rights for content</description>
 	<files>
 		<filename plugin="aec_showplan">aec_showplan.php</filename>

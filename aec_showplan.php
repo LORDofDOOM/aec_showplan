@@ -20,9 +20,9 @@ $app->registerEvent( 'onAfterInitialise', 'plgContentAECShowPlan' );
 
 class plgContentAECShowPlan extends JPlugin
 {
-    public function __construct(&$subject, $config = array()) {
-        parent::__construct($subject, $config);
-    }	
+	public function __construct(&$subject, $config = array()) {
+		parent::__construct($subject, $config);
+	}	
 
 	public function onAfterInitialise()
 	{
@@ -63,13 +63,13 @@ class plgContentAECShowPlan extends JPlugin
 			if(!in_array($access_group_article->access, $groups)){
 				$error = new stdClass();
 				$error->code = 403;
-				$this->redirectNotAllowed( $error );
+				$this->redirectNotAllowed( $error, $access_group_article->access, null);
 			}
 			
 			if(!in_array($access_group_category->access, $groups)) {
 				$error = new stdClass();
 				$error->code = 403;
-				$this->redirectNotAllowed( $error );
+				$this->redirectNotAllowed( $error, null, $access_group_category->access);
 			}
 		}				
 	}
@@ -77,12 +77,18 @@ class plgContentAECShowPlan extends JPlugin
 	/**
 	 * @param stdClass $error
 	 */
-	public function redirectNotAllowed( $error )
+	public function redirectNotAllowed( $error, $article_access_id, $cat_access_id  )
 	{
 		if ( $error->code == 403 ) {
 			$app = JFactory::getApplication();
-
-			$app->redirect( JURI::base() . 'index.php?option=com_acctexp&task=NotAllowed' );
+			if ($article_access_id != null) {
+				$app->redirect( JURI::base() . 'index.php?option=com_acctexp&task=NotAllowed&article_access='.$article_access_id.'' );
+			} elseif ($cat_access_id != null) {
+                $app->redirect( JURI::base() . 'index.php?option=com_acctexp&task=NotAllowed&cat_access='.$cat_access_id.'' );
+			} else {
+                $app->redirect( JURI::base() . 'index.php?option=com_acctexp&task=NotAllowed' );
+			}
+			
 		} else {
 			JError::customErrorPage( $error );
 		}
