@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 $app = JFactory::getApplication();
-$app->registerEvent( 'onAfterInitialise', 'plgContentAECShowPlan' );
+$app->registerEvent( 'onAfterRoute', 'plgContentAECShowPlan' );
 
 class plgContentAECShowPlan extends JPlugin
 {
@@ -24,7 +24,7 @@ class plgContentAECShowPlan extends JPlugin
 		parent::__construct($subject, $config);
 	}	
 
-	public function onAfterInitialise()
+	public function onAfterRoute()
 	{
 		if ( strpos( JPATH_BASE, '/administrator' ) ) {
 			return true;
@@ -42,11 +42,11 @@ class plgContentAECShowPlan extends JPlugin
 	{
 		$uri	= JFactory::getURI();
 
-		$task	= $uri->getVar( 'task' );
-		$option	= $uri->getVar( 'option' );
-		$view	= $uri->getVar( 'view' );
-		$id		= $uri->getVar( 'id' );
-		$return = $uri->getVar( 'return' );
+		$task	= JRequest::getVar( 'task' );
+		$option	= JRequest::getVar( 'option' );
+		$view	= JRequest::getVar( 'view' );
+		$id		= JRequest::getVar( 'id' );
+		$return = JRequest::getVar( 'return' );
 
 		
 		if (( $option == 'com_content' ) && (( $view == 'article' ))) {		
@@ -84,9 +84,9 @@ class plgContentAECShowPlan extends JPlugin
 			if ($article_access_id != null) {
 				$app->redirect( JURI::base() . 'index.php?option=com_acctexp&task=NotAllowed&article_access='.$article_access_id.'' );
 			} elseif ($cat_access_id != null) {
-                $app->redirect( JURI::base() . 'index.php?option=com_acctexp&task=NotAllowed&cat_access='.$cat_access_id.'' );
+				$app->redirect( JURI::base() . 'index.php?option=com_acctexp&task=NotAllowed&cat_access='.$cat_access_id.'' );
 			} else {
-                $app->redirect( JURI::base() . 'index.php?option=com_acctexp&task=NotAllowed' );
+				$app->redirect( JURI::base() . 'index.php?option=com_acctexp&task=NotAllowed' );
 			}
 			
 		} else {
