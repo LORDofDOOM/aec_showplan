@@ -55,21 +55,34 @@ class plgContentAECShowPlan extends JPlugin
 			$access_group_article = $database->loadObject();
 			
 			$database->setQuery( "SELECT access FROM #__categories WHERE id=".$access_group_article->catid."");
-			$access_group_category = $database->loadObject();			
+			$access_group_category = $database->loadObject();		
 
 			$user = JFactory::getUser();
-			$groups = $user->getAuthorisedViewLevels();
+			//$groups = $user->getAuthorisedViewLevels();
+			$allowedViewLevels = JAccess::getAuthorisedViewLevels($user->id);     
 
-			if(!in_array($access_group_article->access, $groups)){
-				$error = new stdClass();
-				$error->code = 403;
-				$this->redirectNotAllowed( $error, $access_group_article->access, null);
+			$access_article = true;
+			$access_catgory = true;
+			
+			if(!in_array($access_group_article->access, $allowedViewLevels)){
+				$access_article = false;
 			}
 			
-			if(!in_array($access_group_category->access, $groups)) {
+			if(!in_array($access_group_category->access, $allowedViewLevels)) {
+				$access_article = false;
+			}
+			if ((!$access_article) || (!$access_catgory))
+			{
 				$error = new stdClass();
 				$error->code = 403;
-				$this->redirectNotAllowed( $error, null, $access_group_category->access);
+				if (!$access_article)
+				{
+					$this->redirectNotAllowed( $error, $access_group_article->access, null);  
+				}
+				if (!$access_catgory)
+				{
+					$this->redirectNotAllowed( $error, null, $access_group_category->access);  
+				}
 			}
 		}				
 	}
